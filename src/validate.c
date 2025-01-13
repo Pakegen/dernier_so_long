@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: quenalla <quenalla@student.42.fr>          +#+  +:+       +#+        */
+/*   By: qacjl <qacjl@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 12:07:11 by qacjl             #+#    #+#             */
-/*   Updated: 2025/01/08 09:53:47 by quenalla         ###   ########.fr       */
+/*   Updated: 2025/01/13 15:40:35 by qacjl            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,20 @@ int	validate_element(t_map *map)
 	return (1);
 }
 
+int validate_line_lengths(t_map *map)
+{
+	int expected_width = ft_strlen(map->data[0]);
+	int y = 0;
+
+	while (y < map->height)
+	{
+		if (ft_strlen(map->data[y]) != (size_t)expected_width)
+			return (write(2, "ERROR, INVALID MAP: INCONSISTENT L// Vérification des longueurs de lignesINE LENGTHS\n", 47), 0);
+		y++;
+	}
+	return (1);
+}
+
 int	validate_map(t_map *map)
 {
 	int	player_x;
@@ -84,6 +98,8 @@ int	validate_map(t_map *map)
 		return (0);
 	if (!validate_element(map))
 		return (0);
+	if (!validate_line_lengths(map))
+	    return (0);
 	find_player_position(map, &player_x, &player_y);
 	if (!validate_paths(map, player_x, player_y))
 		return (0);
