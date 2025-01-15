@@ -232,5 +232,48 @@ void load_sprites(t_game *game)
 
     game->current_player_img = game->player_right;
 }
+////////////////////////////////
+
+#include "so_long.h"
+
+int close_game(t_game *game)
+{
+    // Libérer la carte si elle est allouée
+    if (game->map.data)
+    {
+        for (int i = 0; i < game->map.height; i++)
+            free(game->map.data[i]);
+        free(game->map.data);
+    }
+
+    // Libérer toutes les images
+    if (game->mlx)
+    {
+        if (game->floor_img)
+            mlx_destroy_image(game->mlx, game->floor_img);
+        if (game->wall_img)
+            mlx_destroy_image(game->mlx, game->wall_img);
+        if (game->player_down)
+            mlx_destroy_image(game->mlx, game->player_down);
+        if (game->player_up)
+            mlx_destroy_image(game->mlx, game->player_up);
+        if (game->player_left)
+            mlx_destroy_image(game->mlx, game->player_left);
+        if (game->player_right)
+            mlx_destroy_image(game->mlx, game->player_right);
+        if (game->collect_img)
+            mlx_destroy_image(game->mlx, game->collect_img);
+        if (game->exit_img)
+            mlx_destroy_image(game->mlx, game->exit_img);
+    }
+
+    // Détruire la fenêtre si elle existe
+    if (game->mlx && game->window)
+        mlx_destroy_window(game->mlx, game->window);
+
+    // Quitter proprement
+    exit(0);
+    return (0);
+}
 
 tous les fichiers a apporté des modifications 
